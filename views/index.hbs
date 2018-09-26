@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Records</title>
+  <script src="/javascripts/jquery.min.js">
+
+
+
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+
+  <div class="blank">
+    <div class="blank-page">
+      <div class="row show-grid">
+        <div class="col-md-12">
+
+          <a href="chart.html"><input type="submit" value="Chart" /></a>
+        </div>
+      </div>
+
+      <div class="row show-grid">
+        <table class="table table-bordered" id="data_table">
+          <thead>
+            <tr>
+              <th>Record </th>
+              <th>Date </th>
+              <th>Time</th>
+              <th>JM1</th>
+              <th>JM2</th>
+              <th>JM3</th>
+              <th>JM4</th>
+              <th>JM5</th>
+              <th>Sensor 1</th>
+              <th>Sensor 2</th>
+              <th>Sensor 3</th>
+              <th>Sensor 4</th>
+              <th>Sensor 5 </th>
+              <th>Sensor 6</th>
+              <th>Sensor 7</th>
+              <th>Sensor 8</th>
+
+            </tr>
+
+          </thead>
+          <tbody id="insert">
+
+          </tbody>
+
+
+        </table>
+      </div>
+    </div>
+
+
+    <div class="clearfix"> </div>
+    <div class="container">
+      <canvas id="myChart"></canvas>
+    </div>
+
+  
+
+</body>
+
+</html>
+<script>
+  $(document).ready(function () {
+
+    AjaxFunc("GET", "/data")
+
+
+
+  });
+
+  function AjaxFunc(type, url, veri, cb) {
+    debugger;
+    var sendData = {
+      obj: veri
+
+    }
+    $.ajax({
+      type: type,
+      url: url,
+      data: JSON.stringify(sendData),
+      dataType: "json",
+      contentType: 'application/json',
+      success: function (result) {
+        if (cb) {
+          cb(result);
+        } else {
+
+          chdata = [];
+          chdate = [];
+          chtime=[];
+
+          result.users.forEach(function (item) {
+            chdata.push(item.JM1);
+            chdate.push(item.Date);
+            chtime.push(item.Time);
+            $("#insert").append("<tr id='" + item._id + "'><td >" + item.Record +
+              "</td><td >" + item.Date + "</td><td>" + item.Time +
+              "</td><td >" + item.JM1 + "</td><td >" + item.JM2 + "</td><td >" + item.JM3 +
+              "</td><td >" + item.JM4 + "</td><td >" + item.JM5 + "</td><td >" + item.Sensor1 +
+              "</td><td >" + item.Sensor2 + "</td><td >" + item.Sensor3 + "</td><td >" + item.Sensor4 +
+              "</td><td >" + item.Sensor5 + "</td><td >" + item.Sensor6 + "</td><td >" + item.Sensor7 + "</td><td >" + item.Sensor8 + "</td></tr>"
+            );
+          });
+
+          console.log("yeni ch değerim:" + chdata);
+          console.log("tarihler" + chdate);
+
+          //chart işlemleri
+
+          let myChart = document.getElementById('myChart').getContext('2d');
+
+          // Global Options
+          Chart.defaults.global.defaultFontFamily = 'Lato';
+          Chart.defaults.global.defaultFontSize = 18;
+          Chart.defaults.global.defaultFontColor = '#777';
+
+          let massPopChart = new Chart(myChart, {
+            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+            data: {
+              labels: chdate,
+              datasets: [{
+                label: 'JM1',
+                data: chdata,
+                //backgroundColor: 'green',
+
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 3,
+                hoverBorderColor: '#000'
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Kayıtlar',
+                fontSize: 25
+              },
+              legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                  fontColor: '#000'
+                }
+              },
+              layout: {
+                padding: {
+                  left: 50,
+                  right: 0,
+                  bottom: 0,
+                  top: 0
+                }
+              },
+              tooltips: {
+                enabled: true
+              }
+            }
+          });
+
+
+        }
+      }
+
+    });
+
+  }
+
+
+
+</script>

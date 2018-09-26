@@ -1,0 +1,26 @@
+{
+  "name": "expressapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "~2.6.9",
+    "deep-diff": "^1.0.2",
+    "express": "~4.16.0",
+    "express-fileupload": "^0.4.0",
+    "hbs": "~4.0.1",
+    "http-errors": "~1.6.2",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.1.4",
+    "morgan": "^1.9.0",
+    "papaparse": "^4.6.0",
+    "plotly": "^1.0.6",
+    "request": "^2.88.0",
+    "scramjet": "^4.18.6"
+  }
+}
