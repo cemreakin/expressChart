@@ -4,7 +4,7 @@ var Papa = require('papaparse');
 var MongoClient = require('mongodb').MongoClient
 var assert = require('assert');
 var fs = require('fs');
-
+var diff = require('deep-diff').diff;
 var postDataNew = '';
 var postDataOld = "";
 
@@ -31,95 +31,97 @@ function papaParsing(incomingData) {
     complete: function (results) {
       dataset(results.data);
       function dataset(parsedDataNew) {
-        var i;
-        var x = [];
-        for (var i = 0; i < parsedDataNew.length; i++) {
-          x.push(parsedDataNew[i].Date);
-        }
-        console.log(x) // json daki tarihler
-        var newDateJson = [{}];
-        var j = 0;
-        var BreakException = {};
-        var item;
-        try {
-          for (var i = 0; i < x.length; i++) {
-            item = x[i]
-
-            if (item === undefined) throw BreakException;
-
-            var stringDate = item;
-            stringDate = stringDate.split(" ");
-            //console.log(stringDate);
-            //tarihleri istediğimiz formata getirme
-            switch (stringDate[1]) {
-              case "Jan":
-                stringDate[1] = "00";
-                break;
-              case "Fab":
-                stringDate[1] = "01";
-                break;
-              case "Mar":
-                stringDate[1] = "02";
-                break;
-              case "Apr":
-                stringDate[1] = "03";
-                break;
-              case "May":
-                stringDate[1] = "04";
-                break;
-              case "Jun":
-                stringDate[1] = "05";
-                break;
-              case "Jul":
-                stringDate[1] = "06";
-                break;
-              case "Aug":
-                stringDate[1] = "07";
-                break;
-              case "Sep":
-                stringDate[1] = "08";
-                break;
-              case "Oct":
-                stringDate[1] = "09";
-                break;
-              case "Nov":
-                stringDate[1] = "10";
-                break;
-              case "Dec":
-                stringDate[1] = "11";
-                break;
-            }
-
-            var dateToMongo = new Date(parseInt(stringDate[2]), parseInt(stringDate[1]), parseInt(stringDate[0]));
-            var userTimezoneOffset = dateToMongo.getTimezoneOffset() * 60000;
-
-            newDateJson[j] = new Date((dateToMongo.getTime() - userTimezoneOffset));
-            j++;
-
-
-          }
-        }
-        catch (e) {
-          if (e !== BreakException) {
-            console.log("This record is corrupted" + e);
-            throw e;
-          }
-
-        }
-
-
-        for (var i = 0; i < parsedDataNew.length; i++) {
-          delete parsedDataNew[i].Date;
-          parsedDataNew[i]["Date"] = newDateJson[i];
-        }
-
-
-        console.log(parsedDataNew);
-        dbrecord(parsedDataNew);
+      var i;
+      var x = [];
+      for (var i = 0; i < parsedDataNew.length; i++) {
+        x.push(parsedDataNew[i].Date);
       }
-    }
-  });
+      console.log(x) // json daki tarihler
+      var newDateJson = [{}];
+      var j = 0;
+      var BreakException = {};
+      var item;
+      try {
+        for (var i = 0; i < x.length; i++) {
+          item = x[i]
 
+          if (item === undefined) throw BreakException;
+
+          var stringDate = item;
+          stringDate = stringDate.split(" ");
+          //console.log(stringDate);
+          //tarihleri istediğimiz formata getirme
+          switch (stringDate[1]) {
+            case "Jan":
+              stringDate[1] = "00";
+              break;
+            case "Fab":
+              stringDate[1] = "01";
+              break;
+            case "Mar":
+              stringDate[1] = "02";
+              break;
+            case "Apr":
+              stringDate[1] = "03";
+              break;
+            case "May":
+              stringDate[1] = "04";
+              break;
+            case "Jun":
+              stringDate[1] = "05";
+              break;
+            case "Jul":
+              stringDate[1] = "06";
+              break;
+            case "Aug":
+              stringDate[1] = "07";
+              break;
+            case "Sep":
+              stringDate[1] = "08";
+              break;
+            case "Oct":
+              stringDate[1] = "09";
+              break;
+            case "Nov":
+              stringDate[1] = "10";
+              break;
+            case "Dec":
+              stringDate[1] = "11";
+              break;
+          }
+
+          var dateToMongo = new Date(parseInt(stringDate[2]), parseInt(stringDate[1]), parseInt(stringDate[0]));
+          var userTimezoneOffset = dateToMongo.getTimezoneOffset() * 60000;
+
+          newDateJson[j] = new Date((dateToMongo.getTime() - userTimezoneOffset));
+          j++;
+
+
+        }
+      }
+      catch (e) {
+        if (e !== BreakException) {
+          console.log("This record is corrupted" + e);
+          throw e;
+        }
+
+      }
+
+
+      for (var i = 0; i < parsedDataNew.length; i++) {
+        delete parsedDataNew[i].Date;
+        parsedDataNew[i]["Date"] = newDateJson[i];
+      }
+      
+
+      console.log(parsedDataNew);
+      var differences = diff(parsedDataNew, parsedDataOld);
+      console.log(differences);
+      dbrecord(parsedDataNew);
+    }
+  }
+  });
+ 
 }
 
 
@@ -137,32 +139,28 @@ router.post('/test', function (req, res) {
   });
   res.write('\r\nOK!\r\n');
   res.end();
-
+  
 
 });
 
-function dbrecord(row) {
+function dbrecord(row){
+ 
+MongoClient.connect(url, function (err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
 
-  MongoClient.connect(url, function (err, db) {
+  dbo.createCollection("data", function (err, res) {
     if (err) throw err;
-    var dbo = db.db("mydb");
-    const collection = dbo.collection('data');
-    // Find some documents
-
-    dbo.createCollection("data", function (err, res) {
+   console.log("Collection created!");
+    dbo.collection("data").insert(row, function(err, res) {
       if (err) throw err;
-      console.log("Collection created!");
-      dbo.collection("data").insert(row, function (err, res) {
-        if (err) throw err;
-        // console.log(rows)
-        console.log("Number of documents inserted: " + res.insertedCount);
-
-
-      });
-
-      db.close();
+     // console.log(rows)
+      console.log("Number of documents inserted: " + res.insertedCount);
     });
+
+    db.close();
   });
+});
 }
 
 
