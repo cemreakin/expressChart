@@ -5,6 +5,8 @@
   <title>Records</title>
   <script src="/javascripts/jquery.min.js">
 
+
+
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,63 +15,64 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  
- <div class="container">
-   <div class ="col-sm-24">
-		<div class="row show-grid">
-             
-							<div class="col-md-12">
-							 <form action="/FindDate" method="post">
-    <input type = "date" id="myDate" value="2017-11-08">
-    <button type="button" onclick="add_row();">Ara</button>
-</form>		</div>
-              
-						</div>
-            <div class = "container-fluid">
-       <div class ="col-sm-12">
-    <canvas id="chartJ1"></canvas>
-    <canvas id="chartJ2"></canvas>        
-    <canvas id="chartJ3"></canvas>
-    <canvas id="chartJ4"></canvas>
-    <canvas id="chartJ5"></canvas>
 
-       </div>       
-               
-    
+  <div class="container">
+    <div class="col-sm-24">
+      <div class="row show-grid">
+
+        <div class="col-md-12">
+          <form action="/FindDate" method="post">
+            <input type="date" id="myDate" value="2017-11-08">
+            <button type="button" onclick="add_row();">Ara</button>
+          </form>
+        </div>
+
+      </div>
+      <div class="container-fluid">
+        <div class="col-sm-12">
+          <canvas id="chartJ1"></canvas>
+          <canvas id="chartJ2"></canvas>
+          <canvas id="chartJ3"></canvas>
+          <canvas id="chartJ4"></canvas>
+          <canvas id="chartJ5"></canvas>
+
+        </div>
 
 
- </div>
-  </div> 
- </div>       
-<div class="clearfix"> </div>
-		
+
+
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"> </div>
+
 
   <div class="container">
     <div class="col-sm-24">
 
-      
-                <div class="row show-grid">
-                  <div class="col-md-12">
-                   <form action="/FindDate" method="post">
-       
-        <input type = "date" id="startDate" value="2017-11-08">
-        <input type = "date" id="endDate" value="2017-11-08">
-        <button type="button" onclick="find_range();">Ara</button>
-    </form>
-    
-                  </div>
-                </div>
-             <div class = "container-fluid">
-             
-    <div class ="col-sm-12"><canvas id="chart2"></canvas></div>           
-  
-            </div>
-          
-    
-             
-              </div>
 
-</div>
+      <div class="row show-grid">
+        <div class="col-md-12">
+          <form action="/FindDate" method="post">
+
+            <input type="date" id="startDate" value="2017-11-08">
+            <input type="date" id="endDate" value="2017-11-08">
+            <button type="button" onclick="find_range();">Ara</button>
+          </form>
+
+        </div>
+      </div>
+      <div class="container-fluid">
+
+        <div class="col-sm-12"><canvas id="chart2"></canvas></div>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
 
 </head>
 
@@ -88,33 +91,33 @@
 
 
   });
-let first = document.getElementById('chartJ1').getContext('2d'); //jm1
-var firstPopChart = new Chart(first, { type:"line" , data:{} , options:{}} )
+  let first = document.getElementById('chartJ1').getContext('2d'); //jm1
+  var firstPopChart = new Chart(first, { type: "line", data: {}, options: {} })
 
-let chart = document.getElementById('chartJ2').getContext('2d'); //jm2
-var massPopChart = new Chart(chart, { type:"line" , data:{} , options:{}} )
+  let chart = document.getElementById('chartJ2').getContext('2d'); //jm2
+  var massPopChart = new Chart(chart, { type: "line", data: {}, options: {} })
 
-let pop = document.getElementById('chartJ3').getContext('2d'); //jm3
-var PopChart = new Chart(pop, { type:"line" , data:{} , options:{}} )
+  let pop = document.getElementById('chartJ3').getContext('2d'); //jm3
+  var PopChart = new Chart(pop, { type: "line", data: {}, options: {} })
 
-let graf = document.getElementById('chartJ4').getContext('2d'); //jm4
-var PopGraf = new Chart(graf, { type:"line" , data:{} , options:{}} )
+  let graf = document.getElementById('chartJ4').getContext('2d'); //jm4
+  var PopGraf = new Chart(graf, { type: "line", data: {}, options: {} })
 
-let line = document.getElementById('chartJ5').getContext('2d'); //jm5
-var LineChart = new Chart(line, { type:"line" , data:{} , options:{}} )
+  let line = document.getElementById('chartJ5').getContext('2d'); //jm5
+  var LineChart = new Chart(line, { type: "line", data: {}, options: {} })
 
-let ctx = document.getElementById('chart2').getContext('2d');
-var myChart = new Chart(ctx, { type:"line" , data:{} , options:{}} )
+  let ctx = document.getElementById('chart2').getContext('2d');
+  var myChart = new Chart(ctx, { type: "line", data: {}, options: {} })
 
 
   function AjaxFunc(type, url, veri) {
-    
+
     var sendData = {
       obj: veri
 
     }
 
-    
+
     $.ajax({
       type: type,
       url: url,
@@ -122,408 +125,386 @@ var myChart = new Chart(ctx, { type:"line" , data:{} , options:{}} )
       dataType: "json",
       contentType: 'application/json',
       success: function (result) {
-      
-          
-
-          chdata1 = [];
-          chdata2 = [];
-          chdata3 = [];
-          chdata4 = [];
-          chdata5 = [];
-          chdate = [];
-          chtime = [];
-
-          result.users.forEach(function (item) {
-            chdata1.push(item.JM1);
-            chdata2.push(item.JM2);
-            chdata3.push(item.JM3);
-            chdata4.push(item.JM4);
-            chdata5.push(item.JM5);
-            chdate.push(item.Date);
-            chtime.push(item.Time);
-
-          });
 
 
-          console.log("tarihler" + chdate);
 
-          //chart işlemleri
+        chdata1 = [];
+        chdata2 = [];
+        chdata3 = [];
+        chdata4 = [];
+        chdata5 = [];
+        chdate = [];
+        chtime = [];
 
-          
+        result.users.forEach(function (item) {
+          chdata1.push(item.JM1);
+          chdata2.push(item.JM2);
+          chdata3.push(item.JM3);
+          chdata4.push(item.JM4);
+          chdata5.push(item.JM5);
+          chdate.push(item.Date);
+          chtime.push(item.Time);
 
-          // Global Options
-          Chart.defaults.global.defaultFontFamily = 'Lato';
-          Chart.defaults.global.defaultFontSize = 18;
-          Chart.defaults.global.defaultFontColor = '#777';
-             firstPopChart.destroy();
-          firstPopChart = new Chart(first, {
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: chtime,
-              datasets: [{
-                fill: false,
-                label: 'JM1',
-                data: chdata1,
-                borderColor: 'green',
-                backgroundColor: 'green',
-                lineTension: 0,
-                
-              },
-            
-              ]
+        });
+
+
+        console.log("tarihler" + chdate);
+
+        //chart işlemleri
+
+
+
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+        firstPopChart.destroy();
+        firstPopChart = new Chart(first, {
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: chtime,
+            datasets: [{
+              fill: false,
+              label: 'JM1',
+              data: chdata1,
+              borderColor: 'green',
+              backgroundColor: 'green',
+              lineTension: 0,
+
             },
-            options: {
-                animation: {
-            duration: 2000, // general animation time
-        },
-        hover: {
-            animationDuration: 500, // duration of animations when hovering an item
-        },
-        responsiveAnimationDuration: 0, // animation duration after a resize
 
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-            
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
+            ]
+          },
+          options: {
+            animation: {
+              duration: 2000, // general animation time
+            },
+            hover: {
+              animationDuration: 500, // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
 
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
+            title: {
+              display: true,
+              text: 'Kayıtlar',
+              fontSize: 25
+            },
 
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
                 }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
                 }
-              },
-              
-              tooltips: {
-                enabled: true
+              }]
+            },
+
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
               }
-            }
-          });
-     
+            },
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }
+            },
 
-          // Global Options
-        
-   massPopChart.destroy();
-   massPopChart = new Chart(chart, {
+            tooltips: {
+              enabled: true
+            }
+          }
+        });
+
+
+        // Global Options
+
+        massPopChart.destroy();
+        massPopChart = new Chart(chart, {
+
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: chtime,
+            datasets: [{
+              fill: false,
+              label: 'JM2',
+              data: chdata2,
+              borderColor: 'blue',
+              backgroundColor: 'blue',
+              lineTension: 0,
+
+            },
+
+            ]
+          },
+          options: {
+            animation: {
+              duration: 2000, // general animation time
+            },
+            hover: {
+              animationDuration: 500, // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
+
+
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
+                }
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
+                }
+              }]
+            },
+
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
+              }
+            },
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }
+            },
+
+            tooltips: {
+              enabled: true
+            }
+          }
+        });
+
+
+        PopChart.destroy();
+        PopChart = new Chart(pop, {
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: chtime,
+            datasets: [{
+              fill: false,
+              label: 'JM3',
+              data: chdata3,
+              borderColor: 'red',
+              backgroundColor: 'red',
+              lineTension: 0,
+
+            },
+
+            ]
+          },
+          options: {
+            animation: {
+              duration: 2000, // general animation time
+            },
+            hover: {
+              animationDuration: 500, // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
+
+
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
+                }
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
+                }
+              }]
+            },
+
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
+              }
+            },
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }
+            },
+
+            tooltips: {
+              enabled: true
+            }
+          }
+        });
+
+        PopGraf.destroy();
+        PopGraf = new Chart(graf, {
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: chtime,
+            datasets: [{
+              fill: false,
+              label: 'JM4',
+              data: chdata4,
+              borderColor: 'yellow',
+              backgroundColor: 'yellow',
+              lineTension: 0,
+
+            },
+
+            ]
+          },
+          options: {
+            animation: {
+              duration: 2000, // general animation time
+            },
+            hover: {
+              animationDuration: 500, // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
+
          
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: chtime,
-              datasets: [{
-                fill: false,
-                label: 'JM2',
-                data: chdata2,
-                borderColor: 'blue',
-                backgroundColor: 'blue',
-                lineTension: 0,
-                
-              },
-            
-              ]
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
+                }
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
+                }
+              }]
             },
-            options: {
-                animation: {
-            duration: 2000, // general animation time
-        },
-        hover: {
-            animationDuration: 500, // duration of animations when hovering an item
-        },
-        responsiveAnimationDuration: 0, // animation duration after a resize
 
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-            
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
-
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
-
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
-                }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
-                }
-              },
-              
-              tooltips: {
-                enabled: true
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
               }
-            }
-          });
-
-
-   
-  
-   PopChart.destroy();
-   PopChart = new Chart(pop, {
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: chtime,
-              datasets: [{
-                fill: false,
-                label: 'JM3',
-                data: chdata3,
-                borderColor: 'red',
-                backgroundColor: 'red',
-                lineTension: 0,
-                
-              },
-            
-              ]
             },
-            options: {
-                animation: {
-            duration: 2000, // general animation time
-        },
-        hover: {
-            animationDuration: 500, // duration of animations when hovering an item
-        },
-        responsiveAnimationDuration: 0, // animation duration after a resize
-
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-            
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
-
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
-
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
-                }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
-                }
-              },
-              
-              tooltips: {
-                enabled: true
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
               }
-            }
-          });
-
-    PopGraf.destroy();
-   PopGraf = new Chart(graf, {
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: chtime,
-              datasets: [{
-                fill: false,
-                label: 'JM4',
-                data: chdata4,
-                borderColor: 'yellow',
-                backgroundColor: 'yellow',
-                lineTension: 0,
-                
-              },
-            
-              ]
             },
-            options: {
-                animation: {
-            duration: 2000, // general animation time
-        },
-        hover: {
-            animationDuration: 500, // duration of animations when hovering an item
-        },
-        responsiveAnimationDuration: 0, // animation duration after a resize
 
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-            
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
-
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
-
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
-                }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
-                }
-              },
-              
-              tooltips: {
-                enabled: true
-              }
+            tooltips: {
+              enabled: true
             }
-          });
+          }
+        });
 
-     LineChart.destroy();
-   LineChart = new Chart(line, {
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: chtime,
-              datasets: [{
-                fill: false,
-                label: 'JM5',
-                data: chdata5,
-                borderColor: 'black',
-                backgroundColor: 'black',
-                lineTension: 0,
-                
-              },
-            
-              ]
+        LineChart.destroy();
+        LineChart = new Chart(line, {
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: chtime,
+            datasets: [{
+              fill: false,
+              label: 'JM5',
+              data: chdata5,
+              borderColor: 'black',
+              backgroundColor: 'black',
+              lineTension: 0,
+
             },
-            options: {
-                animation: {
-            duration: 2000, // general animation time
-        },
-        hover: {
-            animationDuration: 500, // duration of animations when hovering an item
-        },
-        responsiveAnimationDuration: 0, // animation duration after a resize
 
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-            
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
+            ]
+          },
+          options: {
+            animation: {
+              duration: 2000, // general animation time
+            },
+            hover: {
+              animationDuration: 500, // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
 
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
 
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
                 }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
                 }
-              },
-              
-              tooltips: {
-                enabled: true
+              }]
+            },
+
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
               }
+            },
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }
+            },
+
+            tooltips: {
+              enabled: true
             }
-          });
+          }
+        });
 
 
 
 
 
-            }
+      }
 
     });
   }
 
   // Tarih aralılğı gönderme 
   function AjaxFunction(type, url, veri) {
-   
+
     var sendData = {
       obj: veri
 
@@ -537,173 +518,173 @@ var myChart = new Chart(ctx, { type:"line" , data:{} , options:{}} )
       dataType: "json",
       contentType: 'application/json',
       success: function (result) {
-      
-          chdata1 = [];
-          chdata2 = [];
-          chdata3 = [];
-          chdata4 = [];
-          chdata5 = [];
-          chdate = [];
-          chtime = [];
-          kir = [];
-          
-          result.users.forEach(function (item) {
-            chdata1.push(item.JM1);
-            chdata2.push(item.JM2);
-            chdata3.push(item.JM3);
-            chdata4.push(item.JM4);
-            chdata5.push(item.JM5);
-            chdate.push(item.Date);
-            chtime.push(item.Time);
 
-          });
-  
-for (var i = 0; i < chdate.length; i ++){
-            var str = chdate[i]
-            var res = str.substring(0, 10)
-            kir.push(res);
-          }
-         
+        chdata1 = [];
+        chdata2 = [];
+        chdata3 = [];
+        chdata4 = [];
+        chdata5 = [];
+        chdate = [];
+        chtime = [];
+        kir = [];
 
-          // Global Options
-          Chart.defaults.global.defaultFontFamily = 'Lato';
-          Chart.defaults.global.defaultFontSize = 18;
-          Chart.defaults.global.defaultFontColor = '#777';
-           myChart.destroy();
-         myChart = new Chart(ctx, {
-            type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-              labels: kir,
-              datasets: [{
-                hidden: false,
-                fill: false,
-                label: 'JM1',
-                data: chdata1,
-                borderColor: 'green',
-                backgroundColor: 'green',
-                lineTension: 0,
-              },
-              {
-                hidden: true,
-                fill: false,
-                label: 'JM2',
-                data: chdata2,
-                borderWidth: 2,
-                borderColor: 'blue',
-                backgroundColor: 'blue',
-                lineTension: 0
-              },
-              {
-                hidden: true,
-                fill: false,
-                label: 'JM3',
-                data: chdata3,
-                borderColor: 'red',
-                backgroundColor: 'red',
-                lineTension: 0,
-              },
-              {
-                hidden: true,
-                fill: false,
-                label: 'JM4',
-                data: chdata4,
-                borderColor: 'yellow',
-                backgroundColor: 'yellow',
-                lineTension: 0,
-              },
-              {
-                hidden: true,
-                fill: false,
-                label: 'JM5',
-                data: chdata5,
-                borderColor: 'black',
-                backgroundColor: 'black',
-                lineTension: 0,
-              }
-              ]
+        result.users.forEach(function (item) {
+          chdata1.push(item.JM1);
+          chdata2.push(item.JM2);
+          chdata3.push(item.JM3);
+          chdata4.push(item.JM4);
+          chdata5.push(item.JM5);
+          chdate.push(item.Date);
+          chtime.push(item.Time);
+
+        });
+
+        for (var i = 0; i < chdate.length; i++) {
+          var str = chdate[i]
+          var res = str.substring(0, 10)
+          kir.push(res);
+        }
+
+
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+        myChart.destroy();
+        myChart = new Chart(ctx, {
+          type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data: {
+            labels: kir,
+            datasets: [{
+              hidden: false,
+              fill: false,
+              label: 'JM1',
+              data: chdata1,
+              borderColor: 'green',
+              backgroundColor: 'green',
+              lineTension: 0,
             },
-            options: {
-              title: {
-                display: true,
-                text: 'Kayıtlar',
-                fontSize: 25
-              },
-              scales: {
-                yAxes: [{
-                  stacked: false,
-                  gridLines: {
-                    display: true,
-                    color: "rgba(200,99,20,0.2)"
-                  }
-                }],
-                xAxes: [{
-
-                  gridLines: {
-                    display: true
-                  }
-                }]
-              },
-
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  fontColor: '#000'
-                }
-              },
-              layout: {
-                padding: {
-                  left: 50,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
-                }
-              },
-              tooltips: {
-                enabled: true
-              }
+            {
+              hidden: true,
+              fill: false,
+              label: 'JM2',
+              data: chdata2,
+              borderWidth: 2,
+              borderColor: 'blue',
+              backgroundColor: 'blue',
+              lineTension: 0
+            },
+            {
+              hidden: true,
+              fill: false,
+              label: 'JM3',
+              data: chdata3,
+              borderColor: 'red',
+              backgroundColor: 'red',
+              lineTension: 0,
+            },
+            {
+              hidden: true,
+              fill: false,
+              label: 'JM4',
+              data: chdata4,
+              borderColor: 'yellow',
+              backgroundColor: 'yellow',
+              lineTension: 0,
+            },
+            {
+              hidden: true,
+              fill: false,
+              label: 'JM5',
+              data: chdata5,
+              borderColor: 'black',
+              backgroundColor: 'black',
+              lineTension: 0,
             }
-          });
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Kayıtlar',
+              fontSize: 25
+            },
+            scales: {
+              yAxes: [{
+                stacked: false,
+                gridLines: {
+                  display: true,
+                  color: "rgba(200,99,20,0.2)"
+                }
+              }],
+              xAxes: [{
+
+                gridLines: {
+                  display: true
+                }
+              }]
+            },
+
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
+              }
+            },
+            layout: {
+              padding: {
+                left: 50,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }
+            },
+            tooltips: {
+              enabled: true
+            }
+          }
+        });
 
 
-        
+
       }
 
     });
 
   }
-	function add_row() {
+  function add_row() {
 
-		var myDate = document.getElementById("myDate").value;
+    var myDate = document.getElementById("myDate").value;
 
-		
-		var _new = {
 
-			tarih: myDate,
+    var _new = {
 
-		}
+      tarih: myDate,
 
-		AjaxFunc("Post", "/FindDate", _new)
-	
+    }
+
+    AjaxFunc("Post", "/FindDate", _new)
+
   }
 
-  	function find_range() {
+  function find_range() {
 
-var startDate = document.getElementById("startDate").value;
-var endDate = document.getElementById("endDate").value;
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
 
 
-var _new = {
+    var _new = {
 
-  start: startDate,
-  end: endDate
+      start: startDate,
+      end: endDate
 
-}
+    }
 
-AjaxFunction("Post", "/FindRange", _new)
+    AjaxFunction("Post", "/FindRange", _new)
 
-}
-  
+  }
+
 
 
 
